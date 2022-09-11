@@ -5,11 +5,10 @@
   },
   "extends": [
       "plugin:react/recommended",
-      "airbnb",
+      "standard-with-typescript",
       "plugin:@typescript-eslint/recommended",
       "plugin:prettier/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
       "ecmaFeatures": {
           "jsx": true

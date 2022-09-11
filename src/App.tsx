@@ -1,9 +1,14 @@
-import React from 'react';
+import React from 'react'
+
+import GlobalStyle from './styles/global'
 
 const App: React.FC = () => {
   return (
-    <h1>Helo word</h1>
-  );
+    <>
+      <GlobalStyle />
+      <h1>Helo word</h1>
+    </>
+  )
 }
 
-export default App;
+export default App
