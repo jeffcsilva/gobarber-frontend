@@ -57,7 +57,12 @@
     "import/no-self-import": "off",
     "import/order": "off",
     "import/no-named-as-default": "off",
-    "import/no-duplicates":"off"
+    "import/no-duplicates":"off",
+    "import/named": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/props-types": "off",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "off"
   },
   "settings": {
     "import/resolver": {
