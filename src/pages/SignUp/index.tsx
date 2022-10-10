@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi'
+import { FormHandles } from '@unform/core'
+import { Form } from '@unform/web'
+import * as Yup from 'yup'
+
+import getValidateErrors from '../../utils/getValidateErrors'
 
 import logoImage from '../../assets/logo.svg'
 
@@ -8,34 +13,58 @@ import Button from '../../components/Button'
 
 import { Container, Content, Background } from './styles'
 
-const SignUp: React.FC = () => (
-  <Container>
-    <Background />
-    <Content>
-      <img src={logoImage} alt="GoBarber" />
+const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null)
 
-      <form>
-        <h1>Faça seu cadastro</h1>
+  const handleSubmit = useCallback(async (data: object) => {
+    try {
+      formRef.current?.setErrors({})
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
+        password: Yup.string().min(6, 'No mínimo 6 digitos'),
+      })
 
-        <Input name="name" icon={FiUser} placeholder="Nome" />
-        <Input name="email" icon={FiMail} placeholder="E-mail" />
+      await schema.validate(data, {
+        abortEarly: false,
+      })
+    } catch (err) {
+      const errors = getValidateErrors(err as Yup.ValidationError)
 
-        <Input
-          name="password"
-          icon={FiLock}
-          type="password"
-          placeholder="Senha"
-        />
+      formRef.current?.setErrors(errors)
+    }
+  }, [])
+  return (
+    <Container>
+      <Background />
+      <Content>
+        <img src={logoImage} alt="GoBarber" />
 
-        <Button type="submit">Cadastrar</Button>
-      </form>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Faça seu cadastro</h1>
 
-      <a href="login">
-        <FiArrowLeft />
-        Voltar para logon
-      </a>
-    </Content>
-  </Container>
-)
+          <Input name="name" icon={FiUser} placeholder="Nome" />
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
+
+          <Input
+            name="password"
+            icon={FiLock}
+            type="password"
+            placeholder="Senha"
+          />
+
+          <Button type="submit">Cadastrar</Button>
+        </Form>
+
+        <a href="login">
+          <FiArrowLeft />
+          Voltar para logon
+        </a>
+      </Content>
+    </Container>
+  )
+}
 
 export default SignUp
