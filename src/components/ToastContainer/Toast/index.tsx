@@ -7,6 +7,7 @@ import { Container } from './styles'
 
 interface IToast {
   message: IToastMessage
+  style: object
 }
 
 const icons = {
@@ -15,7 +16,7 @@ const icons = {
   success: <FiCheckCircle size={24} />,
 }
 
-const Toast: React.FC<IToast> = ({ message }) => {
+const Toast: React.FC<IToast> = ({ message, style }) => {
   const { removeToast } = useToats()
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const Toast: React.FC<IToast> = ({ message }) => {
       hasDescription={!!message.description}
       key={message.id}
       type={message.type}
+      style={style}
     >
       {icons[message.type || 'info']}
 
